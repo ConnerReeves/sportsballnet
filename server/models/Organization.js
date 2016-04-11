@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const organizationSchema = mongoose.Schema({
   name: String,
-  players: [mongoose.Schema.Types.ObjectId]
+  players: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
 });
 
 module.exports = mongoose.model('Organization', organizationSchema);
