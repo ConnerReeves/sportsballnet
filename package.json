@@ -17,15 +17,19 @@
   "dependencies": {
     "body-parser": "^1.15.0",
     "cookie-session": "^2.0.0-alpha.1",
+    "css-loader": "^0.23.1",
     "express": "^4.13.4",
     "history": "^2.0.1",
     "immutable": "^3.7.6",
     "mongoose": "^4.4.12",
+    "node-sass": "^3.4.2",
     "react": "^15.0.0",
     "react-dom": "^15.0.0",
     "react-redux": "^4.4.0",
     "react-router": "^2.1.1",
     "redux": "^3.3.1",
+    "sass-loader": "^3.2.0",
+    "style-loader": "^0.13.1",
     "webpack": "^1.12.2"
   }
 }

@@ -1,0 +1,35 @@
+@import "colors";
+
+$nav-bar-height: 3rem;
+
+.nav-bar {
+  width: 100%;
+  height: $nav-bar-height;
+  border-bottom: 1px solid $grey;
+  text-align: center;
+
+  .app-logo {
+    width: $nav-bar-height;
+    height: $nav-bar-height;
+    background-color: $blue;
+    float: left;
+  }
+
+  .route-links {
+    line-height: $nav-bar-height;
+
+    a {
+      display: inline-block;
+      text-decoration: none;
+      font-size: 1rem;
+      text-transform: uppercase;
+      color: $grey;
+      margin: 0 6px;
+      transition: box-shadow 200ms ease-in-out;
+
+      &:hover {
+        box-shadow: inset 0 -3px 0 $blue;
+      }
+    }
+  }
+}

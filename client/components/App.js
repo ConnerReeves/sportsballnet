@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
+import NavBar from './NavBar';
+require('../styles/app.scss');
 
 export default class App extends Component {
   render() {
     return (
       <div>
-        I am part of the wrapper
-        { this.props.children }
+        <NavBar />
+        <div className="viewport">
+          { this.props.children }
+        </div>
       </div>
     );
   }
