@@ -10,8 +10,8 @@ module.exports = function(port) {
   app.use(bodyParser.json());
 
   // Routes
-  app.get('/', (req, res) => res.sendFile(__dirname + '/views/index.html'));
   require('./routes')(app);
+  app.get('*', (req, res) => res.sendFile(__dirname + '/views/index.html'));
 
   app.listen(port, () => {
     console.log(`Listening on port: ${port}`);
