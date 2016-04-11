@@ -1,27 +1,11 @@
-var webpack = require('webpack');
-var config = require('../webpack.config');
-var mongoose = require('mongoose');
-var express = require('express');
-var bodyParser = require('body-parser')
-var app = express();
-
-app.use(bodyParser.json())
+const mongoose = require('mongoose');
 
 mongoose.connect(process.env.MONGOLAB_URI);
-var db = mongoose.connection;
-var organizationRoutes = require('./routes/Organization');
-var userRoutes = require('./routes/User');
+const db = mongoose.connection;
 
 db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function (callback) {
-  app.use('/api/organizations', organizationRoutes);
-  app.use('/api/users', userRoutes);
-
-  app.get('*', function(req, res) {
-    res.send('Hi');
-  });
-
-  app.listen(process.env.PORT || 3000, function () {
-    console.log('Example app listening on port 3000!');
-  });
+db.once('open', (callback) => {
+  const port = process.env.PORT || 3000;
+  
+  require('./app')(port);
 });

@@ -27,5 +27,4 @@ router.route('/:orgId')
     });
   });
 
-
 module.exports = router;
