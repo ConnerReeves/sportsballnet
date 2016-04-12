@@ -6,18 +6,18 @@ export default class Login extends Component {
   render() {
     return (
       <div className="login-wrapper">
-        <form className="login-form" onSubmit={ this._onFormSubmit.bind(this) }>
+        <form className="login-form" method="POST" action="/login">
           <Input
             width={ 200 }
             type="email"
             label="Email"
-            ref="username"
+            name="username"
           />
           <Input
             width={ 200 }
             type="password"
             label="Password"
-            ref="password"
+            name="password"
           />
           <ButtonInput
             className="login-button"
@@ -27,12 +27,5 @@ export default class Login extends Component {
         </form>
       </div>
     );
-  }
-
-  _onFormSubmit() {
-    this.props.login({
-      username: this.refs.username.getValue(),
-      password: this.refs.username.getValue()
-    });
   }
 }

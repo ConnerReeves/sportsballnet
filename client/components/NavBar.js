@@ -9,9 +9,8 @@ export default class NavBar extends Component {
       <div className="nav-bar">
         <Link to="" className="app-logo" />
         <div className="route-links">
-          <Link to="users">Users</Link>
-          <Link to="leagues">Leagues</Link>
-          <Link to="organizations">Organizations</Link>
+          <Link to="newgame">New Game</Link>
+          <Link to="leaderboard">Leader Board</Link>
         </div>
         <div className="user-display">
           <UserDisplayContainer />
