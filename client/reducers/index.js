@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
-import NavReducer from './NavReducer';
+import LeaguesReducer from './LeaguesReducer';
 
 export default combineReducers({
-  NavReducer
+  LeaguesReducer
 });

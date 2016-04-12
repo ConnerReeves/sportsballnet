@@ -3,7 +3,6 @@ const User = require('../models/User');
 
 router.route('/')
   .post((req, res) => {
-    console.log(req.body);
     const user = new User(req.body);
     user.save((err, user) => res.send(err || user));
   })

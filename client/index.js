@@ -1,17 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { createStore } from 'redux';
+import { applyMiddleware, createStore } from 'redux';
 import { Provider } from 'react-redux';
 import { IndexRoute, Route, Router, browserHistory } from 'react-router';
 
 import App from './components/App';
 import Home from './components/Home';
-import Users from './components/Users';
+import LeaguesContainer from './containers/LeaguesContainer';
 import Login from './components/Login';
 import NewUser from './components/NewUser';
 import reducers from './reducers';
+import thunk from 'redux-thunk';
 
-const store = createStore(reducers);
+const store = createStore(reducers, applyMiddleware(thunk));
 
 ReactDOM.render((
   <Provider store={ store }>
@@ -20,7 +21,7 @@ ReactDOM.render((
       <Route path="/newuser" component={ NewUser } />
       <Route path="/" component={ App }>
         <IndexRoute component={ Home } />
-        <Route path="users" component={ Users } />
+        <Route path="leagues" component={ LeaguesContainer } />
       </Route>
     </Router>
   </Provider>
