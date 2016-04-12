@@ -17,6 +17,7 @@ $nav-bar-height: 3rem;
 
   .route-links {
     line-height: $nav-bar-height;
+    display: inline-block;
 
     a {
       display: inline-block;
@@ -30,6 +31,15 @@ $nav-bar-height: 3rem;
       &:hover {
         box-shadow: inset 0 -3px 0 $blue;
       }
+    }
+  }
+
+  .user-display {
+    float: right;
+    margin: 9px;
+
+    img {
+      border-radius: 5px;
     }
   }
 }
