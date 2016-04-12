@@ -1,17 +1,20 @@
-module.exports = function(port) {
-  const cookieSession = require('cookie-session');
+module.exports = function(port, dbConnection) {
   const express = require('express');
   const bodyParser = require('body-parser');
   const ensureLoggedIn = require('connect-ensure-login').ensureLoggedIn;
+  const session = require('express-session');
+  const MongoStore = require('connect-mongo')(session);
 
   const app = express();
 
   // Middlewares
   app.use(express.static('dist'));
   app.use(bodyParser.json());
-  app.use(require('cookie-parser')());
   app.use(require('body-parser').urlencoded({ extended: true }));
-  app.use(require('express-session')({ secret: 'keyboard cat', resave: false, saveUninitialized: false }));
+  app.use(session({
+    secret: 'sportsballz',
+    store: new MongoStore({mongooseConnection: dbConnection})
+  }));
 
   // Routes
   require('./api-routes')(app);

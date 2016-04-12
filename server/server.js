@@ -6,6 +6,6 @@ const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', (callback) => {
   const port = process.env.PORT || 3000;
-  
-  require('./app')(port);
+
+  require('./app')(port, db);
 });
