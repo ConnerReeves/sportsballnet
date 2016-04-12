@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { requestLeagues } from '../actions/LeagueActions';
-import { getLeagues } from '../reducers/LeaguesReducer';
+import { getIsLoading, getLeagues } from '../reducers/LeaguesReducer';
 import Leagues from '../components/Leagues';
 
 export class LeaguesContainer extends Component {
@@ -11,12 +11,15 @@ export class LeaguesContainer extends Component {
 
   render() {
     return (
-      <Leagues leagues={ this.props.leagues } />
+      <Leagues
+        isLoading={ this.props.isLoading }
+        leagues={ this.props.leagues } />
     );
   }
 }
 
 const mapStateToProps = (state) => ({
+  isLoading: getIsLoading(state),
   leagues: getLeagues(state)
 });
 

@@ -1,12 +1,23 @@
 const router = require('express').Router();
 const League = require('../models/League');
+const User = require('../models/User');
 
 router.route('/')
   .post((req, res) => {
     const league = new League(req.body);
+    console.log(req.session);
+    console.log(req.user);
+    const userId = req.session.passport.user;
 
-    league.save((err, league) => {
-      League.populate(league, ['sport'], (err, league) => res.send(err || league));
+    User.findById(userId, (err, user) => {
+      league.players.push({
+        player: user._id,
+        isAdmin: true
+      });
+
+      league.save((err, league) => {
+        League.populate(league, ['sport', 'players.player'], (err, league) => res.send(err || league));
+      });
     });
   })
 
