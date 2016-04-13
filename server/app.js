@@ -12,6 +12,8 @@ module.exports = function(port, dbConnection) {
   app.use(bodyParser.json());
   app.use(require('body-parser').urlencoded({ extended: true }));
   app.use(session({
+    resave: true,
+    saveUninitialized: true,
     secret: 'sportsballz',
     store: new MongoStore({mongooseConnection: dbConnection})
   }));
