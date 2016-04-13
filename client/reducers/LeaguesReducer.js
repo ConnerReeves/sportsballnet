@@ -1,6 +1,7 @@
 import Immutable from 'immutable';
 import {
   RECEIVED_HYDRATED_LEAGUE,
+  RECEIVED_INVITED_PLAYER,
   RECEIVED_LEAGUES,
   RECEIVED_NEW_LEAGUE,
   REQUESTED_LEAGUES,
@@ -17,7 +18,10 @@ const initialState = Immutable.Map({
 export default createReducer(initialState, {
   [ RECEIVED_LEAGUES ]: (state, { leagues }) => state.set('leagues', Immutable.fromJS(leagues)).set('isLoading', false),
   [ RECEIVED_NEW_LEAGUE ]: (state, { league }) => state.update('leagues', (leagues) => leagues.push(Immutable.fromJS(league))),
-  [ RECEIVED_HYDRATED_LEAGUE ]: (state, { league }) => state.setIn(['hydratedLeagues', league._id], Immutable.fromJS(league))
+  [ RECEIVED_HYDRATED_LEAGUE ]: (state, { league }) => state.setIn(['hydratedLeagues', league._id], Immutable.fromJS(league)),
+  [ RECEIVED_INVITED_PLAYER ]: (state, { leagueId, player }) => {
+    return state.updateIn(['hydratedLeagues', leagueId, 'players'], (players) => players.push(Immutable.fromJS(player)));
+  }
 });
 
 const stateKey = 'LeaguesReducer';

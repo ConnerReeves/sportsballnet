@@ -1,6 +1,7 @@
 import request from 'superagent';
 import {
   RECEIVED_HYDRATED_LEAGUE,
+  RECEIVED_INVITED_PLAYER,
   RECEIVED_LEAGUES,
   RECEIVED_NEW_LEAGUE,
   REQUESTED_NEW_LEAGUE
@@ -36,6 +37,6 @@ export const invitePlayer = (leagueId, player) => dispatch => {
     .post(`/api/leagues/${leagueId}/players`)
     .send(player)
     .end((err, res) => {
-      //
+      dispatch({ type: RECEIVED_INVITED_PLAYER, leagueId, player: res.body });
     });
 }

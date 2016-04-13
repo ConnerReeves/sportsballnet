@@ -82,15 +82,17 @@ router.route('/:leagueId/players')
               });
 
               league.save((err, updatedLeague) => {
-                const urlBase = process.env.DEV ? `http://localhost:${process.env.PORT}` : 'http://http://sportsballnet.herokuapp.com';
+                League.populate(updatedLeague, 'players.player', (err, populatedLeague) => {
+                  const urlBase = process.env.DEV ? `http://localhost:${process.env.PORT}` : 'http://http://sportsballnet.herokuapp.com';
 
-                sendgrid.send({
-                  to: createdUser.email,
-                  from: 'invites@sportsballnet.herokuapp.com',
-                  subject: `Welcome to ${league.name} on Sportsballnet`,
-                  html: `Click <a href="${urlBase}/register/${createdUser._id}">here</a> to finish registration`
-                }, (err, json) => {
-                  res.sendStatus(200);
+                  sendgrid.send({
+                    to: createdUser.email,
+                    from: 'invites@sportsballnet.herokuapp.com',
+                    subject: `Welcome to ${league.name} on Sportsballnet`,
+                    html: `Click <a href="${urlBase}/register/${createdUser._id}">here</a> to finish registration`
+                  }, (err, json) => {
+                    res.send(populatedLeague.players[populatedLeague.players.length - 1]);
+                  });
                 });
               });
             });
