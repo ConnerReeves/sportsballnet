@@ -9,7 +9,7 @@ export default class InvitePlayerModal extends Component {
       <Modal show={ this.props.show } onHide={ this.props.hideInvitePlayerModal }>
         <form onSubmit={ this._onSubmit.bind(this) }>
           <Modal.Header closeButton>
-            <Modal.Title>Add New League</Modal.Title>
+            <Modal.Title>Invite Player</Modal.Title>
           </Modal.Header>
           <Modal.Body>
           <Input
@@ -46,7 +46,7 @@ export default class InvitePlayerModal extends Component {
     e.preventDefault();
 
     const leagueId = this.props.league.get('_id');
-    
+
     this.props.invitePlayer(leagueId, {
       name: this.refs.name.getValue(),
       email: this.refs.email.getValue(),

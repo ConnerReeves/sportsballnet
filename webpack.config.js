@@ -21,6 +21,9 @@ module.exports = {
       test: /\.scss$/,
       exclude: /node_modules/,
       loader: 'style!css!sass?sourceMap'
+    },{
+      test: /\.css$/,
+      loader: 'style!css'
     }]
   },
 };

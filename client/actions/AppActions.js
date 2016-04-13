@@ -28,3 +28,12 @@ export const fetchUnregisteredUser = (userId) => dispatch => {
       dispatch({ type: RECEIVED_UNREGISTERED_USER, user: res.body });
     });
 };
+
+export const updateCurrentUserLeague = (userId, leagueId) => dispatch => {
+  request
+    .put(`/api/users/${userId}`)
+    .send({ currentLeague: leagueId })
+    .end((err, res) => {
+      debugger;
+    });
+}
