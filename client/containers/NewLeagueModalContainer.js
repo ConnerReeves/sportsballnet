@@ -3,18 +3,18 @@ import { connect } from 'react-redux';
 import { requestSports } from '../actions/SportActions';
 import { getSports } from '../reducers/SportsReducer';
 import { getAppState } from '../reducers/AppReducer';
-import NewLeague from '../components/NewLeague';
+import NewLeagueModal from '../components/NewLeagueModal';
 import { createLeague } from '../actions/LeagueActions';
 import { hideNewLeagueModal } from '../actions/AppActions';
 
-export class NewLeagueContainer extends Component {
+export class NewLeagueModalContainer extends Component {
   componentDidMount() {
     this.props.requestSports();
   }
 
   render() {
     return (
-      <NewLeague
+      <NewLeagueModal
         createLeague={ this.props.createLeague }
         sports={ this.props.sports }
         show={ this.props.show }
@@ -34,4 +34,4 @@ const mapDispatchToProps = {
   requestSports
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(NewLeagueContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(NewLeagueModalContainer);

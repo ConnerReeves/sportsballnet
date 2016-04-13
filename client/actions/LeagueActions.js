@@ -1,5 +1,6 @@
 import request from 'superagent';
 import {
+  RECEIVED_HYDRATED_LEAGUE,
   RECEIVED_LEAGUES,
   RECEIVED_NEW_LEAGUE,
   REQUESTED_NEW_LEAGUE
@@ -19,5 +20,22 @@ export const createLeague = (league) => dispatch => {
     .send(league)
     .end((err, res) => {
       dispatch({ type: RECEIVED_NEW_LEAGUE, league: res.body });
+    });
+};
+
+export const fetchLeague = (leagueId) => dispatch => {
+  request
+    .get(`/api/leagues/${leagueId}`)
+    .end((err, res) => {
+      dispatch({ type: RECEIVED_HYDRATED_LEAGUE, league: res.body });
+    });
+};
+
+export const invitePlayer = (leagueId, player) => dispatch => {
+  request
+    .post(`/api/leagues/${leagueId}/players`)
+    .send(player)
+    .end((err, res) => {
+      //
     });
 }

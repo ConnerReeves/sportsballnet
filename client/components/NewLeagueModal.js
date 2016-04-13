@@ -3,7 +3,7 @@ import { Button, Table, Modal, Input, ButtonInput } from 'react-bootstrap';
 
 require('../styles/leagues.scss');
 
-export default class NewLeague extends Component {
+export default class NewLeagueModal extends Component {
   render() {
     return (
       <Modal show={ this.props.show } onHide={ this.props.hideNewLeagueModal }>

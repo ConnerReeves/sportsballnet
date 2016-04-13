@@ -20,9 +20,10 @@ module.exports = function(port, dbConnection) {
 
   // Routes
   require('./api-routes')(app);
+  require('./app-routes')(app);
   require('./auth-routes')(app);
 
-  app.get(['/login', '/newuser'], (req, res) => res.sendFile(__dirname + '/views/index.html'));
+  app.get(['/login', '/register', '/register/:userId'], (req, res) => res.sendFile(__dirname + '/views/index.html'));
   app.get('*', ensureLoggedIn(), (req, res) => res.sendFile(__dirname + '/views/index.html'));
 
   app.listen(port, () => {
