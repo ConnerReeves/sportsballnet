@@ -67,6 +67,7 @@ router.route('/:leagueId/players')
             const newUser = new User({
               name: req.body.name,
               email: req.body.email,
+              currentLeague: req.body.currentLeague,
               invitedBy: userId,
               pending: true
             });

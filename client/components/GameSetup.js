@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 
-export default class Home extends Component {
+export default class GameSetup extends Component {
   render() {
     return (
-      <div>You are home!</div>
+      <div>Setup game...</div>
     );
   }
 }

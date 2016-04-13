@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import { IndexRoute, Route, Router, browserHistory } from 'react-router';
 
 import AppContainer from './containers/AppContainer';
-import Home from './components/Home';
+import GameSetupContainer from './containers/GameSetupContainer';
 import LeaguesContainer from './containers/LeaguesContainer';
 import LeagueDetailContainer from './containers/LeagueDetailContainer';
 import Login from './components/Login';
@@ -24,7 +24,7 @@ ReactDOM.render((
         <Route path=":userId" component={ RegisterContainer } />
       </Route>
       <Route path="/" component={ AppContainer }>
-        <IndexRoute component={ Home } />
+        <IndexRoute component={ GameSetupContainer } />
         <Route path="leagues">
           <IndexRoute component={ LeaguesContainer } />
           <Route path=":leagueId" component={ LeagueDetailContainer } />

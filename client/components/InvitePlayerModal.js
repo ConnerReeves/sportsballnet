@@ -45,9 +45,12 @@ export default class InvitePlayerModal extends Component {
   _onSubmit(e) {
     e.preventDefault();
 
-    this.props.invitePlayer(this.props.league.get('_id'), {
+    const leagueId = this.props.league.get('_id');
+    
+    this.props.invitePlayer(leagueId, {
       name: this.refs.name.getValue(),
       email: this.refs.email.getValue(),
+      currentLeague: leagueId
     });
   }
 }
