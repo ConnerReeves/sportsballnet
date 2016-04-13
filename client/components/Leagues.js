@@ -5,38 +5,24 @@ import NewLeagueContainer from '../containers/NewLeagueContainer';
 require('../styles/leagues.scss');
 
 export default class Leagues extends Component {
-  constructor(props, context) {
-    super(props, context);
-
-    this._hideModal = this._hideModal.bind(this);
-    this._addLeagueClick = this._addLeagueClick.bind(this);
-
-    this.state = {
-      showModal: false
-    };
-  }
-
   render() {
     return (
       <div>
         { this._getAddLeagueButton() }
         { this._getLeagueTable() }
-        <NewLeagueContainer showModal={ this.state.showModal } closeNewLeagueModal={ this._hideModal } />
+        <NewLeagueContainer />
       </div>
     );
   }
 
-  _hideModal() {
-    this.setState({ showModal: false });
-  }
-
-  _addLeagueClick() {
-    this.setState({ showModal: true });
-  }
-
   _getAddLeagueButton() {
     return (
-      <Button bsStyle="success" className="add-league-button" onClick={ this._addLeagueClick }>Add League</Button>
+      <Button
+        bsStyle="success"
+        className="add-league-button"
+        onClick={ this.props.showNewLeagueModal }>
+        Add League
+      </Button>
     );
   }
 

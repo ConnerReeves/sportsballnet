@@ -7,18 +7,9 @@ const initialState = Immutable.Map({
   leagues: Immutable.List()
 });
 
-const tempLeagueId = 'tempLeagueId';
-
 export default createReducer(initialState, {
-  [ REQUESTED_LEAGUES ]: (state) => state.set('isLoading', true),
   [ RECEIVED_LEAGUES ]: (state, { leagues }) => state.set('leagues', Immutable.fromJS(leagues)).set('isLoading', false),
-  [ REQUESTED_NEW_LEAGUE ]: (state, { league }) => {
-    const newLeague = Object.assign({}, league, { _id: tempLeagueId });
-    return state.set('leagues', state.get('leagues').push(Immutable.fromJS(newLeague)));
-  },
-  [ RECEIVED_NEW_LEAGUE ]: (state, { league }) => {
-    return state.set('leagues', state.get('leagues').filterNot( l => l._id === tempLeagueId ).push(Immutable.froJS(league)));
-  }
+  [ RECEIVED_NEW_LEAGUE ]: (state, { league }) => state.update('leagues', (leagues) => leagues.push(Immutable.fromJS(league)))
 });
 
 const stateKey = 'LeaguesReducer';

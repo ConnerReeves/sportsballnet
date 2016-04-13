@@ -6,7 +6,7 @@ require('../styles/leagues.scss');
 export default class NewLeague extends Component {
   render() {
     return (
-      <Modal show={ this.props.showModal } onHide={ this.props.closeNewLeagueModal }>
+      <Modal show={ this.props.show } onHide={ this.props.hideNewLeagueModal }>
         <form onSubmit={ this._onSubmit.bind(this) }>
           <Modal.Header closeButton>
             <Modal.Title>Add New League</Modal.Title>
@@ -43,8 +43,9 @@ export default class NewLeague extends Component {
               className="submit-button"
               type="submit"
               value="Submit"
+              onClick={ this.props.hideNewLeagueModal }
             />
-            <Button onClick={ this.props.closeNewLeagueModal }>Close</Button>
+            <Button onClick={ this.props.hideNewLeagueModal }>Close</Button>
           </Modal.Footer>
         </form>
       </Modal>
@@ -53,7 +54,7 @@ export default class NewLeague extends Component {
 
   _onSubmit(e) {
     e.preventDefault();
-    
+
     this.props.createLeague({
       name: this.refs.name.getValue(),
       teamSize: this.refs.teamSize.getValue(),

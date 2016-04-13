@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { requestLeagues } from '../actions/LeagueActions';
 import { getIsLoading, getLeagues } from '../reducers/LeaguesReducer';
+import { showNewLeagueModal } from '../actions/AppActions';
 import Leagues from '../components/Leagues';
 
 export class LeaguesContainer extends Component {
@@ -13,7 +14,9 @@ export class LeaguesContainer extends Component {
     return (
       <Leagues
         isLoading={ this.props.isLoading }
-        leagues={ this.props.leagues } />
+        leagues={ this.props.leagues }
+        showNewLeagueModal={ this.props.showNewLeagueModal }
+      />
     );
   }
 }
@@ -24,7 +27,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = {
-  requestLeagues
+  requestLeagues,
+  showNewLeagueModal
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(LeaguesContainer);

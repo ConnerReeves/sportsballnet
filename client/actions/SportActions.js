@@ -1,7 +1,10 @@
+import request from 'superagent';
 import { RECEIVED_SPORTS } from '../utils/Constants';
 
 export const requestSports = () => (dispatch) => {
-  fetch('/api/sports').then(res => res.json()).then((sports) => {
-    dispatch({ type: RECEIVED_SPORTS, sports });
-  });
+  request
+    .get('/api/sports')
+    .end((err, res) => {
+      dispatch({ type: RECEIVED_SPORTS, sports: res.body });
+    });
 };

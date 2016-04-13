@@ -5,8 +5,6 @@ const User = require('../models/User');
 router.route('/')
   .post((req, res) => {
     const league = new League(req.body);
-    console.log(req.session);
-    console.log(req.user);
     const userId = req.session.passport.user;
 
     User.findById(userId, (err, user) => {
