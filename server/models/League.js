@@ -5,6 +5,7 @@ const leagueSchema = mongoose.Schema({
   name: String,
   players: [{
     player: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    joinedDate: { type: Date, default: Date.now },
     isAdmin: Boolean
   }],
   sport: { type: mongoose.Schema.Types.ObjectId, ref: 'Sport' },

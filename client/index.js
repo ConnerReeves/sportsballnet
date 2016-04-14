@@ -6,7 +6,7 @@ import { IndexRoute, Route, Router, browserHistory } from 'react-router';
 
 import AppContainer from './containers/AppContainer';
 import GameSetupContainer from './containers/GameSetupContainer';
-import LeaguesContainer from './containers/LeaguesContainer';
+import LeagueListContainer from './containers/LeagueListContainer';
 import LeagueDetailContainer from './containers/LeagueDetailContainer';
 import Login from './components/Login';
 import RegisterContainer from './containers/RegisterContainer';
@@ -26,7 +26,7 @@ ReactDOM.render((
       <Route path="/" component={ AppContainer }>
         <IndexRoute component={ GameSetupContainer } />
         <Route path="leagues">
-          <IndexRoute component={ LeaguesContainer } />
+          <IndexRoute component={ LeagueListContainer } />
           <Route path=":leagueId" component={ LeagueDetailContainer } />
         </Route>
       </Route>

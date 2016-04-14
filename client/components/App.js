@@ -6,7 +6,7 @@ export default class App extends Component {
   render() {
     return (
       <div>
-        <NavBar />
+        <NavBar path={ this.props.path } />
         <div className="viewport">
           { this.props.children }
         </div>

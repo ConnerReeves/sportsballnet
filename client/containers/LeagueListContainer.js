@@ -3,16 +3,16 @@ import { connect } from 'react-redux';
 import { requestLeagues } from '../actions/LeagueActions';
 import { getIsLoading, getLeagues } from '../reducers/LeaguesReducer';
 import { showNewLeagueModal } from '../actions/AppActions';
-import Leagues from '../components/Leagues';
+import LeagueList from '../components/LeagueList';
 
-export class LeaguesContainer extends Component {
+export class LeagueListContainer extends Component {
   componentDidMount() {
     this.props.requestLeagues();
   }
 
   render() {
     return (
-      <Leagues
+      <LeagueList
         isLoading={ this.props.isLoading }
         leagues={ this.props.leagues }
         showNewLeagueModal={ this.props.showNewLeagueModal }
@@ -31,4 +31,4 @@ const mapDispatchToProps = {
   showNewLeagueModal
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(LeaguesContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(LeagueListContainer);

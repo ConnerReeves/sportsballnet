@@ -1,28 +1,16 @@
 import React, { Component } from 'react';
-import { Button, Table } from 'react-bootstrap';
+import { Button, Panel, Table } from 'react-bootstrap';
 import NewLeagueModalContainer from '../containers/NewLeagueModalContainer';
 
 require('../styles/leagues.scss');
 
-export default class Leagues extends Component {
+export default class LeagueList extends Component {
   render() {
     return (
       <div>
-        { this._getAddLeagueButton() }
         { this._getLeagueTable() }
         <NewLeagueModalContainer />
       </div>
-    );
-  }
-
-  _getAddLeagueButton() {
-    return (
-      <Button
-        bsStyle="success"
-        className="add-league-button"
-        onClick={ this.props.showNewLeagueModal }>
-        Add League
-      </Button>
     );
   }
 
@@ -31,19 +19,40 @@ export default class Leagues extends Component {
       return <div>Loading...</div>;
     }
 
+    const header = (
+      <div>
+        Leagues
+        { this._getAddLeagueButton() }
+      </div>
+    );
+
     return (
-      <Table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Sport</th>
-            <th>Players</th>
-          </tr>
-        </thead>
-        <tbody>
-          { this._getLeagueRows() }
-        </tbody>
-      </Table>
+      <Panel header={ header }>
+        <Table className="leagues-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Sport</th>
+              <th>Players</th>
+            </tr>
+          </thead>
+          <tbody>
+            { this._getLeagueRows() }
+          </tbody>
+        </Table>
+      </Panel>
+    );
+  }
+
+  _getAddLeagueButton() {
+    return (
+      <Button
+        bsSize="xsmall"
+        bsStyle="success"
+        className="add-league-button"
+        onClick={ this.props.showNewLeagueModal }>
+        Add League
+      </Button>
     );
   }
 

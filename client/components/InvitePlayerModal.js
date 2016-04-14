@@ -30,12 +30,13 @@ export default class InvitePlayerModal extends Component {
           </Modal.Body>
           <Modal.Footer>
             <ButtonInput
+              bsStyle="success"
               className="submit-button"
               type="submit"
               value="Submit"
               onClick={ this.props.hideInvitePlayerModal }
             />
-            <Button onClick={ this.props.hideInvitePlayerModal }>Close</Button>
+            <Button onClick={ this.props.hideInvitePlayerModal }>Cancel</Button>
           </Modal.Footer>
         </form>
       </Modal>

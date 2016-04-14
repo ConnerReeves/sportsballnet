@@ -10,7 +10,10 @@ export class AppContainer extends Component {
 
   render() {
     return (
-      <App children={ this.props.children } />
+      <App
+        children={ this.props.children }
+        path={ this.props.location.pathname }
+      />
     );
   }
 }

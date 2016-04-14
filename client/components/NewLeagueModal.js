@@ -40,12 +40,13 @@ export default class NewLeagueModal extends Component {
           </Modal.Body>
           <Modal.Footer>
             <ButtonInput
+              bsStyle="success"
               className="submit-button"
               type="submit"
               value="Submit"
               onClick={ this.props.hideNewLeagueModal }
             />
-            <Button onClick={ this.props.hideNewLeagueModal }>Close</Button>
+            <Button onClick={ this.props.hideNewLeagueModal }>Cancel</Button>
           </Modal.Footer>
         </form>
       </Modal>
