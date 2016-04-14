@@ -5,7 +5,8 @@ import {
   RECEIVED_CURRENT_USER,
   RECEIVED_UNREGISTERED_USER,
   SHOW_INVITE_PLAYER_MODAL,
-  SHOW_NEW_LEAGUE_MODAL
+  SHOW_NEW_LEAGUE_MODAL,
+  UPDATE_CURRENT_USER_LEAGUE
 } from '../utils/Constants';
 
 export const hideInvitePlayerModal = () => ({ type: HIDE_INVITE_PLAYER_MODAL });
@@ -30,10 +31,10 @@ export const fetchUnregisteredUser = (userId) => dispatch => {
 };
 
 export const updateCurrentUserLeague = (userId, leagueId) => dispatch => {
+  dispatch({ type: UPDATE_CURRENT_USER_LEAGUE, leagueId });
+
   request
     .put(`/api/users/${userId}`)
     .send({ currentLeague: leagueId })
-    .end((err, res) => {
-      debugger;
-    });
+    .end();
 }
