@@ -33,7 +33,7 @@ export default class LeagueList extends Component {
             <tr>
               <th>Name</th>
               <th>Sport</th>
-              <th>Players</th>
+              <th className="text-center">Players</th>
             </tr>
           </thead>
           <tbody>
@@ -65,8 +65,8 @@ export default class LeagueList extends Component {
           <td>
             <a href={ `/leagues/${league.get('_id')}` }>{ league.get('name') }</a>
           </td>
-          <td width="300">{ league.getIn(['sport', 'name']) }</td>
-          <td width="100">{ `${teamSize} vs ${teamSize}` }</td>
+          <td width="200">{ league.getIn(['sport', 'name']) }</td>
+          <td width="100" className="text-center">{ `${teamSize} vs ${teamSize}` }</td>
         </tr>
       );
     }).toJS();

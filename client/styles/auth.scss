@@ -1,6 +1,7 @@
 @import "colors";
 
-.login-wrapper {
+.login-wrapper,
+.register-wrapper {
   width: 100%;
   height: 100%;
   background-image: radial-gradient($blue, lighten($blue, 20%));
@@ -8,7 +9,9 @@
   display: flex;
   align-items: center;
 
-  .login-form {
+  .login-form,
+  .register-form {
+    width: 300px;
     margin: auto;
     color: white;
 

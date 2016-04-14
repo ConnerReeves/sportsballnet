@@ -32,12 +32,12 @@ export default class LeagueDetail extends Component {
         <Table className="player-table">
           <thead>
             <tr>
-              <th>Rank</th>
+              <th className="text-center">Rank</th>
               <th>Player</th>
-              <th>Rating</th>
+              <th className="text-center">Rating</th>
               <th>Record</th>
               <th></th>
-              <th>Joined</th>
+              <th className="text-center">Joined</th>
             </tr>
           </thead>
           <tbody>
@@ -83,8 +83,8 @@ export default class LeagueDetail extends Component {
           </td>
           <td width="100" className="text-center">{ member.get('rating') }</td>
           <td width="100%">{ this._getRecordIndicator(member) }</td>
-          <td width="25">{ member.get('winPercentage') }%</td>
-          <td width="100">{ joinedDate }</td>
+          <td width="25" className="text-center">{ member.get('winPercentage') }%</td>
+          <td width="100" className="text-center">{ joinedDate }</td>
         </tr>
       );
     }).toJS();

@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
 import { Input, ButtonInput } from 'react-bootstrap';
-require('../styles/login.scss');
+require('../styles/auth.scss');
 
 export default class Register extends Component {
   render() {
     const unregisteredUser = this.props.user;
 
     return (
-      <div className="login-wrapper">
-        <form className="login-form" method="POST" action={ `/register/${ unregisteredUser && unregisteredUser.get('_id') }` }>
+      <div className="register-wrapper">
+        <form className="register-form" method="POST" action={ `/register/${ unregisteredUser && unregisteredUser.get('_id') }` }>
           <Input
-            width={ 300 }
             type="email"
             label="Email"
             name="username"
@@ -18,7 +17,6 @@ export default class Register extends Component {
             disabled={ Boolean(unregisteredUser) }
           />
           <Input
-            width={ 300 }
             type="text"
             label="Name"
             name="name"
@@ -26,7 +24,6 @@ export default class Register extends Component {
             disabled={ Boolean(unregisteredUser) }
           />
           <Input
-            width={ 300 }
             type="password"
             label="Password"
             name="password"
