@@ -89,7 +89,7 @@ router.route('/:leagueId/players')
                   sendgrid.send({
                     to: createdUser.email,
                     from: 'invites@sportsballnet.herokuapp.com',
-                    subject: `Welcome to ${league.name} on Sportsballnet`,
+                    subject: `Welcome to ${league.name} on SportsBallNet`,
                     html: `Click <a href="${urlBase}/register/${createdUser._id}">here</a> to finish registration`
                   }, (err, json) => {
                     res.send(populatedLeague.players[populatedLeague.players.length - 1]);
