@@ -1,8 +1,8 @@
+const gameRoutes = require('./Game');
 const leagueRoutes = require('./League');
 const organizationRoutes = require('./Organization');
 const sportRoutes = require('./Sport');
 const userRoutes = require('./User');
-const ensureLoggedIn = require('connect-ensure-login').ensureLoggedIn;
 
 module.exports = (app) => {
   app.use('/api/*', function(req, res, next) {
@@ -13,6 +13,7 @@ module.exports = (app) => {
     return res.sendStatus(401);
   });
 
+  app.use('/api/games', gameRoutes);
   app.use('/api/leagues', leagueRoutes);
   app.use('/api/organizations', organizationRoutes);
   app.use('/api/sports', sportRoutes);

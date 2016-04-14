@@ -1,6 +1,8 @@
 const router = require('express').Router();
 const League = require('../models/League');
 const User = require('../models/User');
+const Game = require('../models/Game');
+const getPlayerDetails = require('../utils/LeagueUtils').getPlayerDetails;
 const sendgrid  = require('sendgrid')(process.env.SENDGRID_API_KEY);
 
 router.route('/')
@@ -103,7 +105,15 @@ router.route('/:leagueId/players')
         res.sendStatus(401);
       }
     });
+  })
 
+  .get((req, res) => {
+    const playerIds = Array.isArray(req.query.playerIds) ? req.query.playerIds : [req.query.playerIds];
+
+    Game.find({ league: req.params.leagueId }, (err, games) => {
+      const playerDetails = getPlayerDetails(games, playerIds);
+      res.send(playerDetails);
+    });
   });
 
 module.exports = router;

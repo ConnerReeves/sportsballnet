@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import Immutable from 'immutable';
-import { Button, Panel, ProgressBar, Table } from 'react-bootstrap';
+import { Button, Panel, Table } from 'react-bootstrap';
 import Gravatar from 'react-gravatar';
 import moment from 'moment';
+import RecordIndicator from './RecordIndicator';
 import InvitePlayerModalContainer from '../containers/InvitePlayerModalContainer';
 
 export default class LeagueDetail extends Component {
@@ -73,6 +74,8 @@ export default class LeagueDetail extends Component {
     return playersWithMockRecordData.map((member, index) => {
       const player = member.get('player');
       const joinedDate = moment(member.get('joinedDate')).format('MM-DD-YYYY');
+      const wins = member.get('wins');
+      const losses = member.get('losses');
 
       return (
         <tr key={ player.get('_id') }>
@@ -82,7 +85,7 @@ export default class LeagueDetail extends Component {
             <div className="player-name">{ player.get('name') }</div>
           </td>
           <td width="100" className="text-center">{ member.get('rating') }</td>
-          <td width="100%">{ this._getRecordIndicator(member) }</td>
+          <td width="100%"><RecordIndicator wins={ wins } losses={ losses } /></td>
           <td width="25" className="text-center">{ member.get('winPercentage') }%</td>
           <td width="100" className="text-center">{ joinedDate }</td>
         </tr>
@@ -92,28 +95,5 @@ export default class LeagueDetail extends Component {
 
   _getRandom(max) {
     return Math.floor(Math.random() * max);
-  }
-
-  _getRecordIndicator(member) {
-    const wins = member.get('wins');
-    const losses = member.get('losses');
-    const winPercentage = member.get('winPercentage');
-
-    return (
-      <ProgressBar>
-        <ProgressBar
-          bsStyle="info"
-          key="wins"
-          label={ wins }
-          now={ winPercentage }
-        />
-        <ProgressBar
-          bsStyle="danger"
-          key="losses"
-          label={ losses }
-          now={ 100 - winPercentage }
-        />
-      </ProgressBar>
-    );
   }
 }

@@ -4,6 +4,7 @@ import {
   RECEIVED_INVITED_PLAYER,
   RECEIVED_LEAGUES,
   RECEIVED_NEW_LEAGUE,
+  RECEIVED_PLAYER_DETAILS,
   REQUESTED_NEW_LEAGUE
 } from '../utils/Constants';
 
@@ -40,3 +41,12 @@ export const invitePlayer = (leagueId, player) => dispatch => {
       dispatch({ type: RECEIVED_INVITED_PLAYER, leagueId, player: res.body });
     });
 }
+
+export const fetchPlayerDetails = (leagueId, playerIds) => (dispatch) => {
+  request
+    .get(`/api/leagues/${leagueId}/players`)
+    .query({ playerIds })
+    .end((err, res) => {
+      dispatch({ type: RECEIVED_PLAYER_DETAILS, details: res.body });
+    });
+};
