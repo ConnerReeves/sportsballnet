@@ -24,6 +24,9 @@ module.exports = {
     },{
       test: /\.css$/,
       loader: 'style!css'
+    },{
+      test: /\.png/,
+      loader: 'url?limit=10000&minetype=image/png'
     }]
   },
 };
