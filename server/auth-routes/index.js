@@ -2,14 +2,19 @@ const passport = require('passport');
 const Strategy = require('passport-local').Strategy;
 const User = require('../models/User');
 const path = require('path');
+const md5 = require('MD5');
+
+const PASSWORD_SALT = 'sportsballz';
 
 module.exports = (app) => {
   passport.use(new Strategy((username, password, next) => {
+    username = username.toLowerCase();
+
     User
       .findOne({ email: username })
       .select('+password')
       .exec((err, user) => {
-        return next(err || null, user && user.password === password ? user : false);
+        return next(err || null, user && user.password === md5(password + PASSWORD_SALT) ? user : false);
       });
   }));
 
@@ -48,12 +53,12 @@ module.exports = (app) => {
   });
 
   app.post('/register/:userId', (req, res) => {
-    User.findById(req.params.userId, (err, user) => {
+    User.findById(req.params.userId.toLowerCase(), (err, user) => {
       if (err) {
         res.send(err);
       }
 
-      user.password = req.body.password;
+      user.password = md5(req.body.password + PASSWORD_SALT);
       user.pending = false;
 
       user.save((err, updatedUser) => {
