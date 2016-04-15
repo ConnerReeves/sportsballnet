@@ -97,7 +97,7 @@ router.route('/:leagueId/players')
 
               league.save((err, updatedLeague) => {
                 League.populate(updatedLeague, 'players.player', (err, populatedLeague) => {
-                  const urlBase = process.env.DEV ? `http://localhost:${process.env.PORT}` : 'http://http://sportsballnet.herokuapp.com';
+                  const urlBase = process.env.DEV ? `http://localhost:${process.env.PORT}` : 'http://sportsballnet.herokuapp.com';
 
                   sendgrid.send({
                     to: createdUser.email,
