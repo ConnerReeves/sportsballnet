@@ -45,6 +45,8 @@ module.exports = {
         return playerDetailsMap.setIn([playerId, 'elo'], newElos[playerId]);
       }, playerDetailsMap);
 
+      console.log(newElos);
+
       return playerDetailsMap;
     }, Immutable.Map()).toJS();
 
