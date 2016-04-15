@@ -2,17 +2,21 @@ import request from 'superagent';
 import {
   HIDE_INVITE_PLAYER_MODAL,
   HIDE_NEW_LEAGUE_MODAL,
+  HIDE_REPORT_GAME_MODAL,
   RECEIVED_CURRENT_USER,
   RECEIVED_UNREGISTERED_USER,
   SHOW_INVITE_PLAYER_MODAL,
   SHOW_NEW_LEAGUE_MODAL,
+  SHOW_REPORT_GAME_MODAL,
   UPDATE_CURRENT_USER_LEAGUE
 } from '../utils/Constants';
 
 export const hideInvitePlayerModal = () => ({ type: HIDE_INVITE_PLAYER_MODAL });
 export const hideNewLeagueModal = () => ({ type: HIDE_NEW_LEAGUE_MODAL });
+export const hideReportGameModal = () => ({ type: HIDE_REPORT_GAME_MODAL });
 export const showInvitePlayerModal = () => ({ type: SHOW_INVITE_PLAYER_MODAL });
 export const showNewLeagueModal = () => ({ type: SHOW_NEW_LEAGUE_MODAL });
+export const showReportGameModal = () => ({ type: SHOW_REPORT_GAME_MODAL });
 
 export const fetchCurrentUser = () => dispatch => {
   request

@@ -56,6 +56,10 @@ module.exports = {
           elo: DEFAULT_ELO
         };
       }
+
+      if (playerDetailsMap[playerId].elo === undefined) {
+        playerDetailsMap[playerId].elo = DEFAULT_ELO;
+      }
     });
 
     return playerDetailsMap;

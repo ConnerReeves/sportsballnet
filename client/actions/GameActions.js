@@ -6,3 +6,10 @@ import {
 export const updateGamePlayers = (players) => (dispatch) => {
   dispatch({ type: UPDATE_GAME_PLAYERS, players });
 };
+
+export const reportGameResult = (results) => (dispatch) => {
+  request
+    .post('/api/games')
+    .send(results)
+    .end((err, res) => {});
+};

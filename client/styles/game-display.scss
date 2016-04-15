@@ -1,6 +1,42 @@
 @import "colors";
 
-.game-display {
+.game-display,
+.report-game-modal {
+
+  &.report-game-modal {
+    .modal-content,
+    .modal-dialog {
+      width: 75rem;
+    }
+
+    .table {
+      margin-bottom: 0;
+    }
+
+    tr td {
+      border: 0;
+    }
+
+    tr:first-child {
+      margin-top: 1rem;
+      
+      td {
+        cursor: pointer;
+
+        &:hover,
+        &.selected {
+          background-color: lighten($blue, 50);
+          border-radius: 1rem;
+        }
+      }
+    }
+
+    .winner {
+      height: 1rem;
+    }
+
+  }
+
   .start-game-button {
     float: right;
   }
@@ -12,6 +48,7 @@
     margin: 2rem auto;
     padding-right: 1rem;
     width: 33rem;
+    background: white;
 
     .player-info {
       margin-bottom: 2rem;

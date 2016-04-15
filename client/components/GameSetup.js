@@ -38,7 +38,10 @@ export default class GameSetup extends Component {
               selected={ selectedPlayerOptions }
             />
           </div>
-          <GameDisplayContainer maxPlayerCount={ this.props.maxPlayerCount } />
+          <GameDisplayContainer
+            currentLeagueId={ currentLeagueId }
+            maxPlayerCount={ this.props.maxPlayerCount }
+          />
         </div>
       );
     }
