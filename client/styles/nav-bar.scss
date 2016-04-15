@@ -1,6 +1,7 @@
 @import "colors";
 
 $nav-bar-height: 5rem;
+$app-logo-width: 6rem;
 
 .nav-bar {
   width: 100%;
@@ -9,10 +10,14 @@ $nav-bar-height: 5rem;
   text-align: center;
 
   .app-logo {
-    width: $nav-bar-height;
+    width: $app-logo-width;
     height: $nav-bar-height;
     background-color: $blue;
     float: left;
+
+    .logo-img {
+      margin: 2px auto;
+    }
   }
 
   .route-links {
