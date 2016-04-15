@@ -62,35 +62,30 @@ export default class LeagueDetail extends Component {
   }
 
   _getPlayerRows() {
-    const playersWithMockRecordData = this.props.league.get('players').map((member) => {
-      const wins = this._getRandom(200);
-      const losses = this._getRandom(200);
-      const winPercentage = Math.floor((wins / (wins + losses)) * 100);
-      const rating = Math.floor((winPercentage / 100) * 2000);
+    return this.props.league.get('players')
+              .sortBy((member) => member.getIn(['player', 'elo']))
+              .reverse()
+              .map((member, index) => {
+                const player = member.get('player');
+                const joinedDate = moment(member.get('joinedDate')).format('MM-DD-YYYY');
+                const wins = player.get('wins');
+                const losses = player.get('losses');
+                const winPercentage = Math.floor((wins / (wins + losses)) * 100) || 0;
 
-      return member.merge(Immutable.fromJS({ wins, losses, winPercentage, rating }));
-    }).sortBy((member) => member.get('rating')).reverse();
-
-    return playersWithMockRecordData.map((member, index) => {
-      const player = member.get('player');
-      const joinedDate = moment(member.get('joinedDate')).format('MM-DD-YYYY');
-      const wins = member.get('wins');
-      const losses = member.get('losses');
-
-      return (
-        <tr key={ player.get('_id') }>
-          <td width="50" className="text-center">{ index + 1 }</td>
-          <td>
-            <Gravatar email={ player.get('email').toLowerCase() } size={ 40 } />
-            <div className="player-name">{ player.get('name') }</div>
-          </td>
-          <td width="100" className="text-center">{ member.get('rating') }</td>
-          <td width="100%"><RecordIndicator wins={ wins } losses={ losses } /></td>
-          <td width="25" className="text-center">{ member.get('winPercentage') }%</td>
-          <td width="100" className="text-center">{ joinedDate }</td>
-        </tr>
-      );
-    }).toJS();
+                return (
+                  <tr key={ player.get('_id') }>
+                    <td width="50" className="text-center">{ index + 1 }</td>
+                    <td>
+                      <Gravatar email={ player.get('email').toLowerCase() } size={ 40 } />
+                      <div className="player-name">{ player.get('name') }</div>
+                    </td>
+                    <td width="100" className="text-center">{ player.get('elo') }</td>
+                    <td width="100%"><RecordIndicator wins={ wins } losses={ losses } /></td>
+                    <td width="25" className="text-center">{ winPercentage }%</td>
+                    <td width="100" className="text-center">{ joinedDate }</td>
+                  </tr>
+                );
+              }).toJS();
   }
 
   _getRandom(max) {

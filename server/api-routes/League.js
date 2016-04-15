@@ -32,7 +32,18 @@ router.route('/:leagueId')
   .get((req, res) => {
     League.findById(req.params.leagueId)
       .populate(['players.player', 'sport'])
-      .exec((err, league) => res.send(err || league));
+      .exec((err, league) => {
+        Game.find({ league: league._id }, (err, games) => {
+          const playerDetails = getPlayerDetails(games, league.players.map(member => member.player._id));
+
+          const leaguePlayers = league.players.map((member, index) => {
+            const player = Object.assign({}, member.player.toObject(), playerDetails[member.player._id]);
+            return Object.assign({}, member.toObject(), { player });
+          });
+
+          res.send(err || Object.assign({}, league.toObject(), { players: leaguePlayers }));
+        });
+      });
   })
 
   .put((req, res) => {

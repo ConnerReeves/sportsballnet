@@ -26,7 +26,7 @@ module.exports = {
       loader: 'style!css'
     },{
       test: /\.png/,
-      loader: 'url?limit=10000&minetype=image/png'
+      loader: 'url?limit=10000&mimetype=image/png'
     }]
   },
 };

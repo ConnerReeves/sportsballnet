@@ -48,7 +48,7 @@ module.exports = {
       return playerDetailsMap;
     }, Immutable.Map()).toJS();
 
-    playerIds.forEach((playerId) => {
+    playerIds && playerIds.forEach((playerId) => {
       if (!playerDetailsMap[playerId]) {
         playerDetailsMap[playerId] = {
           wins: 0,
