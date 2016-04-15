@@ -10,6 +10,10 @@ export class LeagueDetailContainer extends Component {
     this.props.fetchLeague(this.props.params.leagueId);
   }
 
+  componentWillReceiveProps() {
+    this.props.fetchLeague(this.props.params.leagueId);
+  }
+
   render() {
     return (
       <LeagueDetail

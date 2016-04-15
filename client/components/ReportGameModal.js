@@ -13,7 +13,7 @@ export default class ReportGameModal extends Component {
 
   render() {
     return (
-      <Modal className="report-game-modal" show={ this.props.show } onHide={ this.props.hideReportGameModal }>
+      <Modal className="report-game-modal" show={ this.props.show } onHide={ this._closeModal.bind(this) }>
         <form onSubmit={ this._onSubmit.bind(this) }>
           <Modal.Header closeButton>
             <Modal.Title>Report Game Result</Modal.Title>
@@ -55,11 +55,16 @@ export default class ReportGameModal extends Component {
               onClick={ this._onSubmit.bind(this) }>
               Submit
             </Button>
-            <Button onClick={ this.props.hideReportGameModal }>Cancel</Button>
+            <Button onClick={ this._closeModal.bind(this) }>Cancel</Button>
           </Modal.Footer>
         </form>
       </Modal>
     );
+  }
+
+  _closeModal() {
+    this.props.hideReportGameModal();
+    this.setState({ selectedWinner: null });
   }
 
   _selectWinner(selectedWinner) {
@@ -72,5 +77,6 @@ export default class ReportGameModal extends Component {
 
     this.props.reportGameResult({ winners, losers , league: this.props.currentLeagueId });
     this.props.hideReportGameModal();
+    this.setState({ selectedWinner: null });
   }
 }
