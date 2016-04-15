@@ -52,7 +52,7 @@ export default class GameDisplay extends Component {
       <Button
         bsSize="xsmall"
         bsStyle="success"
-        disabled={ true } //false after game has correct number of players
+        disabled={ this.props.gamePlayers.size !== this.props.maxPlayerCount }
         className="start-game-button"
         onClick={ () => {} }>
         Start Game
@@ -61,12 +61,35 @@ export default class GameDisplay extends Component {
   }
 
   _getTeams() {
-    return this.props.gamePlayers
-            .sortBy((player) => player.get('elo'))
-            .reverse()
-            .reduce((teams, player, index) => {
-              return teams.update(`team${(index % 2) + 1}`, (team) => team ? team.push(player) : Immutable.List([ player ]));
-            }, Immutable.Map()).toJS();
+    const { gamePlayers } = this.props;
+    let team1 = Immutable.List();
+    let team2 = Immutable.List();
+
+    if (gamePlayers) {
+      const sortedPlayers = gamePlayers.sortBy((player) => player.get('elo'));
+      const reversedSortedPlayers = gamePlayers.sortBy((player) => player.get('elo')).reverse();
+
+      const player1 = reversedSortedPlayers.get(0);
+      team1 = player1 ? team1.push(player1.toJS()) : team1;
+
+      const player2 = reversedSortedPlayers.get(1);
+      team2 = player2 ? team2.push(player2.toJS()) : team2;
+
+      sortedPlayers.forEach((player, index) => {
+        if (index < sortedPlayers.size - 2) {
+          if (index % 2 === 0) {
+            team1 = team1.push(player.toJS());
+          } else {
+            team2 = team2.push(player.toJS());
+          }
+        }
+      });
+    }
+
+    return {
+      team1: team1.toJS(),
+      team2: team2.toJS()
+    };
   }
 
   _getPlayerCard(player) {

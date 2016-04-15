@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Immutable from 'immutable';
 import { Input } from 'react-bootstrap';
 import Typeahead from 'react-bootstrap-typeahead';
 import GameDisplayContainer from '../containers/GameDisplayContainer';
@@ -8,15 +9,17 @@ export default class GameSetup extends Component {
     super(props, context);
 
     this.state = {
-      selectedPlayerIds: []
+      selectedPlayerIds: [],
+      renderKey: 0
     };
   }
 
   render() {
     if (this.props.currentUser.size) {
       const currentLeagueId = this.props.currentUser.get('currentLeague');
-      const maxPlayerCount = this.props.currentLeague.get('teamSize') * 2;
+      const playerIdKey = this.state.selectedPlayerIds.reduce((key, playerId) => `${key}${playerId}`, '');
       const leaguePlayerOptions = this._getLeaguePlayerOptions();
+      const selectedPlayerOptions = leaguePlayerOptions.filter((option) => this.state.selectedPlayerIds.includes(option.id));
 
       return (
         <div>
@@ -26,15 +29,16 @@ export default class GameSetup extends Component {
           <div className="form-group">
             <label className="control-label">Choose Players</label>
             <Typeahead
-              placeholder={ `Add Players (${maxPlayerCount} Max)` }
+              placeholder={ `Add Players (${this.props.maxPlayerCount} Max)` }
               emptyLabel="No League Players"
               onChange={ this._onPlayerSelectionChange.bind(this) }
               options={ leaguePlayerOptions }
               multiple={ true }
-              key={ currentLeagueId }
+              key={ `${currentLeagueId}${this.state.renderKey}` }
+              selected={ selectedPlayerOptions }
             />
           </div>
-          <GameDisplayContainer />
+          <GameDisplayContainer maxPlayerCount={ this.props.maxPlayerCount } />
         </div>
       );
     }
@@ -48,16 +52,21 @@ export default class GameSetup extends Component {
     this.props.updateCurrentUserLeague(userId, leagueId);
 
     this.setState({ selectedPlayerIds: [] });
+    this.props.updateGamePlayers(Immutable.List());
   }
 
   _onPlayerSelectionChange(selectedPlayers) {
-    const selectedPlayerIds = selectedPlayers.map((player) => player.id);
-    this.setState({ selectedPlayerIds });
+    this.setState({ renderKey: this.state.renderKey + 1 }); //Uber hack to get around react-bootstrap-typeahead not oberving "selected" prop
 
-    this.props.fetchPlayerDetails(this.props.currentLeague.get('_id'), selectedPlayerIds);
-    this.props.updateGamePlayers(this.props.leaguePlayers.filter((player) => {
-      return selectedPlayerIds.indexOf(player.get('_id')) !== -1;
-    }));
+    if (selectedPlayers.length <= this.props.maxPlayerCount) {
+      const selectedPlayerIds = selectedPlayers.map((player) => player.id);
+      this.setState({ selectedPlayerIds });
+
+      this.props.fetchPlayerDetails(this.props.currentLeague.get('_id'), selectedPlayerIds);
+      this.props.updateGamePlayers(this.props.leaguePlayers.filter((player) => {
+        return selectedPlayerIds.indexOf(player.get('_id')) !== -1;
+      }));
+    }
   }
 
   _getLeagueOptions() {

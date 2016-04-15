@@ -6,7 +6,10 @@ import GameDisplay from '../components/GameDisplay';
 export class GameDisplayContainer extends Component {
   render() {
     return (
-      <GameDisplay gamePlayers={ this.props.gamePlayers } />
+      <GameDisplay
+        gamePlayers={ this.props.gamePlayers }
+        maxPlayerCount={ this.props.maxPlayerCount }
+      />
     );
   }
 }
