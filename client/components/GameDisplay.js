@@ -7,7 +7,6 @@ require('../styles/game-display.scss');
 
 export default class GameDisplay extends Component {
   render() {
-    console.log(this.props.gamePlayers && this.props.gamePlayers.toJS());
     if (this._playerElosLoaded()) {
       const { team1, team2 } = this._getTeams();
 
