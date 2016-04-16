@@ -79,7 +79,7 @@ export default class LeagueDetail extends Component {
                       <Gravatar email={ player.get('email').toLowerCase() } size={ 40 } />
                       <div className="player-name">{ player.get('name') }</div>
                     </td>
-                    <td width="100" className="text-center">{ Math.round(player.get('elo')) || 1000 }</td>
+                    <td width="100" className="text-center">{ player.get('elo') }</td>
                     <td width="100%"><RecordIndicator wins={ wins } losses={ losses } /></td>
                     <td width="25" className="text-center">{ winPercentage }%</td>
                     <td width="100" className="text-center">{ joinedDate }</td>
