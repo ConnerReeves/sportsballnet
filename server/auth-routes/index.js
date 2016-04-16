@@ -2,7 +2,7 @@ const passport = require('passport');
 const Strategy = require('passport-local').Strategy;
 const User = require('../models/User');
 const path = require('path');
-const md5 = require('MD5');
+const md5 = require('md5');
 
 const PASSWORD_SALT = 'sportsballz';
 
