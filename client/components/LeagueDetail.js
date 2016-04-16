@@ -93,8 +93,4 @@ export default class LeagueDetail extends Component {
                 );
               }).toJS();
   }
-
-  _getRandom(max) {
-    return Math.floor(Math.random() * max);
-  }
 }

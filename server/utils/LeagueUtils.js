@@ -17,23 +17,24 @@ function getNewElo(playerElo, opponentElos, isWinner) {
 module.exports = {
   getPlayerDetails: (games, playerIds) => {
     var currentElo, opponentElos;
-
     const playerDetailsMap = games.reduce((playerDetailsMap, game) => {
+      const winners = game.winners.map((id) => id.toString());
+      const losers = game.losers.map((id) => id.toString());
       const newElos = {};
 
-      game.winners.forEach((winnerId) => {
+      winners.forEach((winnerId) => {
         currentElo = playerDetailsMap.getIn([winnerId, 'elo']) || DEFAULT_ELO;
-        opponentElos = game.losers.map((loserId) => playerDetailsMap.getIn([loserId, 'elo']) || DEFAULT_ELO);
+        opponentElos = losers.map((loserId) => playerDetailsMap.getIn([loserId, 'elo']) || DEFAULT_ELO);
         newElos[winnerId] = getNewElo(currentElo, opponentElos, true);
       });
 
-      game.losers.forEach((loserId) => {
+      losers.forEach((loserId) => {
         currentElo = playerDetailsMap.getIn([loserId, 'elo']) || DEFAULT_ELO;
-        opponentElos = game.winners.map((winnerId) => playerDetailsMap.getIn([winnerId, 'elo']) || DEFAULT_ELO);
+        opponentElos = winners.map((winnerId) => playerDetailsMap.getIn([winnerId, 'elo']) || DEFAULT_ELO);
         newElos[loserId] = getNewElo(currentElo, opponentElos, false);
       });
 
-      game.winners.forEach((winnerId) => {
+      winners.forEach((winnerId) => {
         playerDetailsMap = playerDetailsMap.updateIn([winnerId, 'elo'], (elo) => newElos[winnerId] || DEFAULT_ELO)
                                            .updateIn([winnerId, 'wins'], (wins) => (wins || 0) + 1)
                                            .updateIn([winnerId, 'losses'], (losses) => losses || 0)
@@ -41,7 +42,7 @@ module.exports = {
                                            .updateIn([winnerId, 'lastPlayed'], (lastPlayed) => game.playedDate);
       });
 
-      game.losers.forEach((loserId) => {
+      losers.forEach((loserId) => {
         playerDetailsMap = playerDetailsMap.updateIn([loserId, 'elo'], (elo) => newElos[loserId] || DEFAULT_ELO)
                                            .updateIn([loserId, 'losses'], (losses) => (losses || 0) + 1)
                                            .updateIn([loserId, 'wins'], (wins) => wins || 0)
@@ -53,6 +54,8 @@ module.exports = {
     }, Immutable.Map()).toJS();
 
     playerIds.forEach((playerId) => {
+      playerId = playerId.toString();
+
       if (!playerDetailsMap[playerId]) {
         playerDetailsMap[playerId] = {
           elo: DEFAULT_ELO,

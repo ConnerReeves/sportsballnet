@@ -48,9 +48,7 @@ router.route('/:leagueId')
 
   .put((req, res) => {
     League.findById(req.params.leagueId, (err, league) => {
-      if (err) {
-        res.send(err);
-      }
+      if (err) { res.send(err); }
 
       Object.assign(league, req.body);
       league.save((err) => res.send(err || league));
@@ -59,22 +57,18 @@ router.route('/:leagueId')
 
 router.route('/:leagueId/players')
   .post((req, res) => {
-    const userId = req.session.passport.user;
+    const userId = req.session.passport && req.session.passport.user || null;
 
     League.findById(req.params.leagueId, (err, league) => {
-      if (err) {
-        res.send(err);
-      }
+      if (err) { res.send(err); }
 
       const playerIsInLeague = league.players.some((player) =>
         player.player.toString() === userId
       );
 
-      if (playerIsInLeague) {
+      if (process.env.DEV || playerIsInLeague) {
         User.findOne({ email: req.body.email }, (err, user) => {
-          if (err) {
-            res.send(err);
-          }
+          if (err) { res.send(err); }
 
           if (!user) {
             const newUser = new User({
@@ -86,9 +80,7 @@ router.route('/:leagueId/players')
             });
 
             newUser.save((err, createdUser) => {
-              if (err) {
-                res.send(err);
-              }
+              if (err) { res.send(err); }
 
               league.players.push({
                 player: createdUser._id,
@@ -96,18 +88,33 @@ router.route('/:leagueId/players')
               });
 
               league.save((err, updatedLeague) => {
-                League.populate(updatedLeague, 'players.player', (err, populatedLeague) => {
-                  const urlBase = process.env.DEV ? `http://localhost:${process.env.PORT}` : 'http://sportsballnet.herokuapp.com';
-
-                  sendgrid.send({
-                    to: createdUser.email,
-                    from: 'invites@sportsballnet.herokuapp.com',
-                    subject: `Welcome to ${league.name} on SportsBallNet`,
-                    html: `Click <a href="${urlBase}/register/${createdUser._id}">here</a> to finish registration`
-                  }, (err, json) => {
+                League.populate(updatedLeague, ['player', 'players.player'], (err, populatedLeague) => {
+                  if (process.env.DEV) {
                     res.send(populatedLeague.players[populatedLeague.players.length - 1]);
-                  });
+                  } else {
+                    sendgrid.send({
+                      to: createdUser.email,
+                      from: 'invites@sportsballnet.herokuapp.com',
+                      subject: `Welcome to ${league.name} on SportsBallNet`,
+                      html: `Click <a href="http://sportsballnet.herokuapp.com/register/${createdUser._id}">here</a> to finish registration`
+                    }, (err, json) => {
+                      res.send(populatedLeague.players[populatedLeague.players.length - 1]);
+                    });
+                  }
                 });
+              });
+            });
+          } else {
+            if (league.players.map((player) => player).indexOf(user._id) !== -1) {
+              league.players.push({
+                player: user._id,
+                isAdmin: false
+              });
+            }
+
+            league.save((err, updatedLeague) => {
+              League.populate(updatedLeague, ['player', 'players.player'], (err, populatedLeague) => {
+                res.send(populatedLeague.players[populatedLeague.players.length - 1]);
               });
             });
           }
