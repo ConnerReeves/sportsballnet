@@ -44,7 +44,7 @@ module.exports = (app) => {
         res.send(err);
       }
 
-      if (user && !user.pending) {
+      if (user && user.pending === false) {
         res.redirect('/login');
       } else {
         res.sendFile(path.join(__dirname, '..', '/views/index.html'));

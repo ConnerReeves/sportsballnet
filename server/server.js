@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-mongoose.connect(process.env.MONGOLAB_URI);
+mongoose.connect(process.env.DEV ? process.env.DEV_MONGOLAB_URI : process.env.MONGOLAB_URI);
 const db = mongoose.connection;
 
 db.on('error', console.error.bind(console, 'connection error:'));
