@@ -72,7 +72,7 @@ export default class LeagueDetail extends Component {
                 const wins = player.get('wins');
                 const losses = player.get('losses');
                 const winPercentage = Math.floor((wins / (wins + losses)) * 100) || 0;
-                const streak = player.get('streak');
+                const streak = player.get('streak') || 0;
                 const streakClass = streak > 0 ? 'info' : (streak < 0 ? 'danger' : 'default');
 
                 return (
