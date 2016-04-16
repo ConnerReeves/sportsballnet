@@ -37,14 +37,16 @@ module.exports = {
         playerDetailsMap = playerDetailsMap.updateIn([winnerId, 'elo'], (elo) => newElos[winnerId] || DEFAULT_ELO)
                                            .updateIn([winnerId, 'wins'], (wins) => (wins || 0) + 1)
                                            .updateIn([winnerId, 'losses'], (losses) => losses || 0)
-                                           .updateIn([winnerId, 'streak'], (streak) => streak > 0 ? streak + 1 : 1);
+                                           .updateIn([winnerId, 'streak'], (streak) => streak > 0 ? streak + 1 : 1)
+                                           .updateIn([winnerId, 'lastPlayed'], (lastPlayed) => game.playedDate);
       });
 
       game.losers.forEach((loserId) => {
         playerDetailsMap = playerDetailsMap.updateIn([loserId, 'elo'], (elo) => newElos[loserId] || DEFAULT_ELO)
                                            .updateIn([loserId, 'losses'], (losses) => (losses || 0) + 1)
                                            .updateIn([loserId, 'wins'], (wins) => wins || 0)
-                                           .updateIn([loserId, 'streak'], (streak) => streak < 0 ? streak - 1 : -1);
+                                           .updateIn([loserId, 'streak'], (streak) => streak < 0 ? streak - 1 : -1)
+                                           .updateIn([loserId, 'lastPlayed'], (lastPlayed) => game.playedDate);
       });
 
       return playerDetailsMap;
@@ -54,6 +56,7 @@ module.exports = {
       if (!playerDetailsMap[playerId]) {
         playerDetailsMap[playerId] = {
           elo: DEFAULT_ELO,
+          lastPlayed: null,
           losses: 0,
           streak: 0,
           wins: 0

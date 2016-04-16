@@ -39,7 +39,7 @@ export default class LeagueDetail extends Component {
               <th>Record</th>
               <th className="text-center">Win %</th>
               <th className="text-center">Streak</th>
-              <th className="text-center">Joined</th>
+              <th className="text-center">Last Played</th>
             </tr>
           </thead>
           <tbody>
@@ -68,7 +68,7 @@ export default class LeagueDetail extends Component {
               .reverse()
               .map((member, index) => {
                 const player = member.get('player');
-                const joinedDate = moment(member.get('joinedDate')).format('MM-DD-YYYY');
+                const lastPlayed = moment(member.get('lastPlayed')).format('MM-DD-YYYY');
                 const wins = player.get('wins');
                 const losses = player.get('losses');
                 const winPercentage = Math.floor((wins / (wins + losses)) * 100) || 0;
@@ -88,7 +88,7 @@ export default class LeagueDetail extends Component {
                     <td className="text-center">
                       <Label bsStyle={ streakClass }>{ `${streak > 0 ? '+' : ''}${streak}` }</Label>
                     </td>
-                    <td className="text-center">{ joinedDate }</td>
+                    <td className="text-center">{ lastPlayed }</td>
                   </tr>
                 );
               }).toJS();
