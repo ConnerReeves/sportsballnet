@@ -36,13 +36,15 @@ module.exports = {
       game.winners.forEach((winnerId) => {
         playerDetailsMap = playerDetailsMap.updateIn([winnerId, 'elo'], (elo) => newElos[winnerId] || DEFAULT_ELO)
                                            .updateIn([winnerId, 'wins'], (wins) => (wins || 0) + 1)
-                                           .updateIn([winnerId, 'losses'], (losses) => losses || 0);
+                                           .updateIn([winnerId, 'losses'], (losses) => losses || 0)
+                                           .updateIn([winnerId, 'streak'], (streak) => streak > 0 ? streak + 1 : 1);
       });
 
       game.losers.forEach((loserId) => {
         playerDetailsMap = playerDetailsMap.updateIn([loserId, 'elo'], (elo) => newElos[loserId] || DEFAULT_ELO)
                                            .updateIn([loserId, 'losses'], (losses) => (losses || 0) + 1)
-                                           .updateIn([loserId, 'wins'], (wins) => wins || 0);
+                                           .updateIn([loserId, 'wins'], (wins) => wins || 0)
+                                           .updateIn([loserId, 'streak'], (streak) => streak < 0 ? streak - 1 : -1);
       });
 
       return playerDetailsMap;
@@ -51,9 +53,10 @@ module.exports = {
     playerIds.forEach((playerId) => {
       if (!playerDetailsMap[playerId]) {
         playerDetailsMap[playerId] = {
-          wins: 0,
+          elo: DEFAULT_ELO,
           losses: 0,
-          elo: DEFAULT_ELO
+          streak: 0,
+          wins: 0
         };
       }
 

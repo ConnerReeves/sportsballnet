@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Immutable from 'immutable';
-import { Button, Panel, Table } from 'react-bootstrap';
+import { Button, Panel, Table, Label } from 'react-bootstrap';
 import Gravatar from 'react-gravatar';
 import moment from 'moment';
 import RecordIndicator from './RecordIndicator';
@@ -37,7 +37,8 @@ export default class LeagueDetail extends Component {
               <th>Player</th>
               <th className="text-center">Rating</th>
               <th>Record</th>
-              <th></th>
+              <th className="text-center">Win %</th>
+              <th className="text-center">Streak</th>
               <th className="text-center">Joined</th>
             </tr>
           </thead>
@@ -71,18 +72,23 @@ export default class LeagueDetail extends Component {
                 const wins = player.get('wins');
                 const losses = player.get('losses');
                 const winPercentage = Math.floor((wins / (wins + losses)) * 100) || 0;
+                const streak = player.get('streak');
+                const streakClass = streak > 0 ? 'info' : (streak < 0 ? 'danger' : '');
 
                 return (
                   <tr key={ player.get('_id') }>
-                    <td width="50" className="text-center">{ index + 1 }</td>
+                    <td className="text-center">{ index + 1 }</td>
                     <td>
                       <Gravatar email={ player.get('email').toLowerCase() } size={ 40 } />
                       <div className="player-name">{ player.get('name') }</div>
                     </td>
-                    <td width="100" className="text-center">{ player.get('elo') }</td>
+                    <td className="text-center">{ player.get('elo') }</td>
                     <td width="100%"><RecordIndicator wins={ wins } losses={ losses } /></td>
-                    <td width="25" className="text-center">{ winPercentage }%</td>
-                    <td width="100" className="text-center">{ joinedDate }</td>
+                    <td className="text-center">{ winPercentage }%</td>
+                    <td className="text-center">
+                      <Label bsStyle={ streakClass }>{ `${streak > 0 ? '+' : ''}${streak}` }</Label>
+                    </td>
+                    <td className="text-center">{ joinedDate }</td>
                   </tr>
                 );
               }).toJS();

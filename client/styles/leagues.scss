@@ -6,6 +6,10 @@
 
 .leagues-table,
 .player-table {
+  > thead > tr > th {
+    white-space: nowrap;
+  }
+
   > tbody > tr > td {
     vertical-align: middle;
     white-space: nowrap;
