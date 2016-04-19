@@ -13,8 +13,8 @@ const getNewElos = (winners, losers) => {
   const losersAdjustedElo = elo.updateRating(expectedLoserElo, 0, totalLoserElo);
 
   if (winners.length === 1 && losers.length === 1) {
-    newElos[winners[0]] = winnersAdjustedElo;
-    newElos[losers[0]] = losersAdjustedElo;
+    newElos[winners[0].playerId] = winnersAdjustedElo;
+    newElos[losers[0].playerId] = losersAdjustedElo;
   } else {
     winners.forEach((winner) => {
       const gainRatio = (totalWinnerElo - winner.elo) / totalWinnerElo;
