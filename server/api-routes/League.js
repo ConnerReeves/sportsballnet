@@ -100,18 +100,21 @@ router.route('/:leagueId/players')
             });
           });
         } else {
-          if (league.players.map((player) => player).indexOf(user._id) !== -1) {
+          const existingPlayer = league.players.find((player) => player.toString() === user._id.toString());
+          if (!existingPlayer) {
             league.players.push({
               player: user._id,
               isAdmin: false
             });
-          }
 
-          league.save((err, updatedLeague) => {
-            League.populate(updatedLeague, ['player', 'players.player'], (err, populatedLeague) => {
-              res.send(populatedLeague.players[populatedLeague.players.length - 1]);
+            league.save((err, updatedLeague) => {
+              League.populate(updatedLeague, ['player', 'players.player'], (err, populatedLeague) => {
+                res.send(populatedLeague.players[populatedLeague.players.length - 1]);
+              });
             });
-          });
+          } else {
+            res.send(existingPlayer);
+          }
         }
       });
     });
