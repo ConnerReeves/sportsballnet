@@ -1,9 +1,20 @@
 import React, { Component } from 'react';
 import { Button, Table, Modal, Input, ButtonInput } from 'react-bootstrap';
+import { validate, TEAM_SIZE_MIN, TEAM_SIZE_MAX } from '../utils/Validation';
+import { VALIDATION } from '../utils/Constants';
 
 require('../styles/leagues.scss');
 
 export default class NewLeagueModal extends Component {
+  constructor(props, context) {
+    super(props, context);
+
+    this.state = {
+      name: '',
+      teamSize: ''
+    };
+  }
+
   render() {
     return (
       <Modal show={ this.props.show } onHide={ this.props.hideNewLeagueModal }>
@@ -18,16 +29,22 @@ export default class NewLeagueModal extends Component {
             label="Name"
             name="name"
             ref="name"
+            value={ this.state.name }
+            onChange={ this._updateState.bind(this, 'name') }
             autoFocus={ true }
+            bsStyle={ this._validate('name') }
           />
           <Input
             width={ 200 }
             type="number"
-            min={ 1 }
-            max={ 4 }
+            min={ TEAM_SIZE_MIN }
+            max={ TEAM_SIZE_MAX }
             label="Players Per Team"
             name="teamSize"
             ref="teamSize"
+            value={ this.state.teamSize }
+            onChange={ this._updateState.bind(this, 'teamSize') }
+            bsStyle={ this._validate('teamSize') }
           />
           <Input
             width={ 200 }
@@ -44,7 +61,6 @@ export default class NewLeagueModal extends Component {
               className="submit-button"
               type="submit"
               value="Submit"
-              onClick={ this.props.hideNewLeagueModal }
             />
             <Button onClick={ this.props.hideNewLeagueModal }>Cancel</Button>
           </Modal.Footer>
@@ -53,14 +69,36 @@ export default class NewLeagueModal extends Component {
     );
   }
 
+  _updateState(ref) {
+    this.setState({
+      [ref]: this.refs[ref].getValue()
+    });
+  }
+
+  _validate(ref) {
+    if (validate(ref, this.state[ref])) {
+      return VALIDATION.SUCCESS;
+    }
+
+    return VALIDATION.ERROR;
+  }
+
+  _isAllDataValid() {
+    return this._validate('name') && this._validate('teamSize');
+  }
+
   _onSubmit(e) {
     e.preventDefault();
 
-    this.props.createLeague({
-      name: this.refs.name.getValue(),
-      teamSize: this.refs.teamSize.getValue(),
-      sport: this.refs.sport.getValue()
-    });
+    if (this._isAllDataValid()) {
+      this.props.createLeague({
+        name: this.refs.name.getValue(),
+        teamSize: this.refs.teamSize.getValue(),
+        sport: this.refs.sport.getValue()
+      });
+
+      this.props.hideNewLeagueModal();
+    }
   }
 
   _getSportsOptions() {

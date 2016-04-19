@@ -16,6 +16,7 @@
     "connect-mongo": "^1.1.0",
     "css-loader": "^0.23.1",
     "elo-rank": "^1.0.0",
+    "email-validator": "^1.0.4",
     "express": "^4.13.4",
     "express-session": "^1.13.0",
     "file-loader": "^0.8.5",
