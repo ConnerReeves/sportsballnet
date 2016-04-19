@@ -100,7 +100,7 @@ router.route('/:leagueId/players')
             });
           });
         } else {
-          const existingPlayer = league.players.find((player) => player == user._id);
+          const existingPlayer = league.players.find((player) => player.toString() == user._id.toString());
           if (!existingPlayer) {
             league.players.push({
               player: user._id,
