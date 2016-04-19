@@ -1,7 +1,7 @@
 const Immutable = require('immutable');
 const elo = require('elo-rank')();
 
-const DEFAULT_ELO = 1100;
+const DEFAULT_ELO = 1000;
 
 const getNewElos = (winners, losers) => {
   var newElos = {};
