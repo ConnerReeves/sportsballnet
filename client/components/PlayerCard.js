@@ -12,7 +12,7 @@ export default class GameDisplay extends Component {
         <Gravatar className="player-avatar" size={ 78 } email={ player.email.toLowerCase() } />
         <h4 className="player-info">
           { player.name }
-          <Label>{ player.elo }</Label>
+          <Label>{ Math.round(player.elo) }</Label>
         </h4>
         <RecordIndicator wins={ player.wins } losses={ player.losses } />
       </div>
