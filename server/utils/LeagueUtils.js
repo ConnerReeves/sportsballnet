@@ -5,26 +5,26 @@ const DEFAULT_ELO = 1000;
 
 const getNewElos = (winners, losers) => {
   var newElos = {};
-  const averageWinnerElo = winners.reduce((sum, winner) => sum + winner.elo, 0) / winners.length;
-  const averageLoserElo = losers.reduce((sum, loser) => sum + loser.elo, 0) / losers.length;
-  const expectedWinnerElo = elo.getExpected(averageWinnerElo, averageLoserElo);
-  const expectedLoserElo = elo.getExpected(averageLoserElo, averageWinnerElo);
-  const winnersAdjustedElo = elo.updateRating(expectedWinnerElo, 1, averageWinnerElo);
-  const losersAdjustedElo = elo.updateRating(expectedLoserElo, 0, averageLoserElo);
+  const totalWinnerElo = winners.reduce((sum, winner) => sum + winner.elo, 0);
+  const totalLoserElo = losers.reduce((sum, loser) => sum + loser.elo, 0);
+  const expectedWinnerElo = elo.getExpected(totalWinnerElo, totalLoserElo);
+  const expectedLoserElo = elo.getExpected(totalLoserElo, totalWinnerElo);
+  const winnersAdjustedElo = elo.updateRating(expectedWinnerElo, 1, totalWinnerElo);
+  const losersAdjustedElo = elo.updateRating(expectedLoserElo, 0, totalLoserElo);
 
   if (winners.length === 1 && losers.length === 1) {
     newElos[winners[0].playerId] = winnersAdjustedElo;
     newElos[losers[0].playerId] = losersAdjustedElo;
   } else {
     winners.forEach((winner) => {
-      const gainRatio = (averageWinnerElo - winner.elo) / averageWinnerElo;
-      const totalGain = winnersAdjustedElo - averageWinnerElo;
+      const gainRatio = (totalWinnerElo - winner.elo) / totalWinnerElo;
+      const totalGain = winnersAdjustedElo - totalWinnerElo;
       newElos[winner.playerId] = winner.elo + (totalGain * gainRatio);
     });
 
     losers.forEach((loser) => {
-      const gainRatio = (averageLoserElo - loser.elo) / averageLoserElo;
-      const totalGain = losersAdjustedElo - averageLoserElo;
+      const gainRatio = (totalLoserElo - loser.elo) / totalLoserElo;
+      const totalGain = losersAdjustedElo - totalLoserElo;
       newElos[loser.playerId] = loser.elo + (totalGain * gainRatio);
     });
   }
