@@ -1,7 +1,7 @@
 const request = require('superagent');
 
 const FN_URL_BASE = 'http://bld-foosnet-01.f4tech.com';
-const SBN_LEAGUE_ID = '571289bfcc7b0f00054eb871';
+const SBN_LEAGUE_ID = '57166399b4a8f6903917912c';
 const SBN_URL_BASE = process.env.DEV ? 'http://localhost:5000' : 'http://sportsballnet.herokuapp.com';
 
 const getFnPlayers = () => new Promise((resolve, reject) => {

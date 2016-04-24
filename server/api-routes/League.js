@@ -62,66 +62,61 @@ router.route('/:leagueId/players')
     League.findById(req.params.leagueId, (err, league) => {
       if (err) { res.send(err); }
 
-      const playerIsInLeague = league.players.some((player) =>
-        player.player.toString() === userId
-      );
+      User.findOne({ email: req.body.email }, (err, user) => {
+        if (err) { res.send(err); }
 
-      if (process.env.DEV || playerIsInLeague) {
-        User.findOne({ email: req.body.email }, (err, user) => {
-          if (err) { res.send(err); }
+        if (!user) {
+          const newUser = new User({
+            name: req.body.name,
+            email: req.body.email,
+            currentLeague: req.body.currentLeague,
+            invitedBy: userId,
+            pending: true
+          });
 
-          if (!user) {
-            const newUser = new User({
-              name: req.body.name,
-              email: req.body.email,
-              currentLeague: req.body.currentLeague,
-              invitedBy: userId,
-              pending: true
+          newUser.save((err, createdUser) => {
+            if (err) { res.send(err); }
+
+            league.players.push({
+              player: createdUser._id,
+              isAdmin: false
             });
 
-            newUser.save((err, createdUser) => {
-              if (err) { res.send(err); }
-
-              league.players.push({
-                player: createdUser._id,
-                isAdmin: false
-              });
-
-              league.save((err, updatedLeague) => {
-                League.populate(updatedLeague, ['player', 'players.player'], (err, populatedLeague) => {
-                  if (process.env.DEV) {
+            league.save((err, updatedLeague) => {
+              League.populate(updatedLeague, ['player', 'players.player'], (err, populatedLeague) => {
+                if (process.env.DEV) {
+                  res.send(populatedLeague.players[populatedLeague.players.length - 1]);
+                } else {
+                  sendgrid.send({
+                    to: createdUser.email,
+                    from: 'invites@sportsballnet.herokuapp.com',
+                    subject: `Welcome to ${league.name} on SportsBallNet`,
+                    html: `Click <a href="http://sportsballnet.herokuapp.com/register/${createdUser._id}">here</a> to finish registration`
+                  }, (err, json) => {
                     res.send(populatedLeague.players[populatedLeague.players.length - 1]);
-                  } else {
-                    sendgrid.send({
-                      to: createdUser.email,
-                      from: 'invites@sportsballnet.herokuapp.com',
-                      subject: `Welcome to ${league.name} on SportsBallNet`,
-                      html: `Click <a href="http://sportsballnet.herokuapp.com/register/${createdUser._id}">here</a> to finish registration`
-                    }, (err, json) => {
-                      res.send(populatedLeague.players[populatedLeague.players.length - 1]);
-                    });
-                  }
-                });
+                  });
+                }
               });
             });
-          } else {
-            if (league.players.map((player) => player).indexOf(user._id) !== -1) {
-              league.players.push({
-                player: user._id,
-                isAdmin: false
-              });
-            }
+          });
+        } else {
+          const existingPlayer = league.players.find((player) => player.toString() === user._id.toString());
+          if (!existingPlayer) {
+            league.players.push({
+              player: user._id,
+              isAdmin: false
+            });
 
             league.save((err, updatedLeague) => {
               League.populate(updatedLeague, ['player', 'players.player'], (err, populatedLeague) => {
                 res.send(populatedLeague.players[populatedLeague.players.length - 1]);
               });
             });
+          } else {
+            res.send(existingPlayer);
           }
-        });
-      } else {
-        res.sendStatus(401);
-      }
+        }
+      });
     });
   })
 
