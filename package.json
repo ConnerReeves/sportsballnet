@@ -1,8 +1,10 @@
 {
   "scripts": {
     "start": "./node_modules/.bin/webpack && node server/server.js",
-    "start:local": "./node_modules/.bin/webpack --watch & nodemon server/server.js",
-    "dev": "heroku local web -f Procfile.local"
+    "dev": "heroku local web -f Procfile.dev",
+    "start:local": "npm run dev:server & npm run dev:client",
+    "dev:server": "cd server && ../node_modules/.bin/nodemon server.js",
+    "dev:client": "./node_modules/.bin/webpack --watch"
   },
   "dependencies": {
     "babel-core": "^6.0.20",
