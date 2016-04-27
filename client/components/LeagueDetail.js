@@ -79,7 +79,7 @@ export default class LeagueDetail extends Component {
                   <tr key={ player.get('_id') }>
                     <td className="text-center">{ index + 1 }</td>
                     <td>
-                      <Gravatar email={ player.get('email').toLowerCase() } size={ 40 } />
+                      <Gravatar https email={ player.get('email').toLowerCase() } size={ 40 } />
                       <div className="player-name">{ player.get('name') }</div>
                     </td>
                     <td className="text-center">{ player.get('elo') }</td>
