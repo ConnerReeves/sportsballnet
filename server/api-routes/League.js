@@ -5,6 +5,8 @@ const Game = require('../models/Game');
 const getPlayerDetails = require('../utils/LeagueUtils').getPlayerDetails;
 const sendgrid  = require('sendgrid')(process.env.SENDGRID_API_KEY);
 
+const leagueGames = {};
+
 router.route('/')
   .post((req, res) => {
     const league = new League(req.body);
@@ -30,20 +32,27 @@ router.route('/')
 
 router.route('/:leagueId')
   .get((req, res) => {
-    League.findById(req.params.leagueId)
+    const leagueId = req.params.leagueId;
+    League.findById(leagueId)
       .populate(['players.player', 'sport'])
       .exec((err, league) => {
-        Game.find({ league: league._id }, (err, games) => {
-          const playerDetails = getPlayerDetails(games, league.players.map(member => member.player._id));
+        Game.count({ league: league._id }, (err, cnt) =>{
+        if (!leagueGames[leagueId] || leagueGames[leagueId].count !== cnt) {
+	  Game.find({ league: league._id }, (err, games) => {
+            const playerDetails = getPlayerDetails(games, league.players.map(member => member.player._id));
 
-          const leaguePlayers = league.players.map((member, index) => {
-            const player = Object.assign({}, member.player.toObject(), playerDetails[member.player._id]);
-            return Object.assign({}, member.toObject(), { player });
+            const leaguePlayers = league.players.map((member, index) => {
+              const player = Object.assign({}, member.player.toObject(), playerDetails[member.player._id]);
+              return Object.assign({}, member.toObject(), { player });
+            });
+            leagueGames[leagueId] = {count: cnt, value: leaguePlayers};
+            res.send(err || Object.assign({}, league.toObject(), { players: leaguePlayers }));
           });
-
-          res.send(err || Object.assign({}, league.toObject(), { players: leaguePlayers }));
-        });
+        } else {
+          res.send(err || Object.assign({}, league.toObject(), { players: leagueGames[leagueId].value }));
+        }
       });
+    })
   })
 
   .put((req, res) => {

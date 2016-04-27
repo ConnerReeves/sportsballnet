@@ -4,10 +4,12 @@ module.exports = function(port, dbConnection) {
   const ensureLoggedIn = require('connect-ensure-login').ensureLoggedIn;
   const session = require('express-session');
   const MongoStore = require('connect-mongo')(session);
+  const favicon = require('serve-favicon');
 
   const app = express();
 
   // Middlewares
+  app.use(favicon(__dirname + '/favicon.ico'));
   app.use(express.static('dist'));
   app.use(bodyParser.json());
   app.use(require('body-parser').urlencoded({ extended: true }));
