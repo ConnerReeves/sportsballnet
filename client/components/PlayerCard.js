@@ -9,7 +9,7 @@ export default class GameDisplay extends Component {
 
     return (
       <div className="player-card" key={ player._id }>
-        <Gravatar className="player-avatar" size={ 78 } email={ player.email.toLowerCase() } />
+        <Gravatar className="player-avatar" https size={ 78 } email={ player.email.toLowerCase() } />
         <h4 className="player-info">
           { player.name }
           <Label>{ Math.round(player.elo) }</Label>
