@@ -22,17 +22,17 @@ export default class GameDisplay extends Component {
             <Table>
               <thead>
                 <tr>
-                  <th className="text-center">Team 1</th>
-                  <th className="text-center">Team 2</th>
+                  <th className="text-center">Team 1{ this._teamScoreDisplay(team1.score) }</th>
+                  <th className="text-center">Team 2{ this._teamScoreDisplay(team2.score) }</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
                   <td width="50%">
-                    { team1 ? team1.map((player) => <PlayerCard player={ player } key={ player._id } />) : null }
+                    { team1.players ? team1.players.map((player) => <PlayerCard player={ player } key={ player._id } />) : null }
                   </td>
                   <td width="50%">
-                    { team2 ? team2.map((player) => <PlayerCard player={ player } key={ player._id } />) : null }
+                    { team2.players ? team2.players.map((player) => <PlayerCard player={ player } key={ player._id } />) : null }
                   </td>
                 </tr>
               </tbody>
@@ -40,11 +40,19 @@ export default class GameDisplay extends Component {
           </Panel>
           <ReportGameModalContainer
             currentLeagueId={ this.props.currentLeagueId }
-            team1={ team1 }
-            team2={ team2 }
+            team1={ team1.players }
+            team2={ team2.players }
           />
         </div>
       );
+    }
+
+    return null;
+  }
+
+  _teamScoreDisplay(score) {
+    if (score) {
+      return <small className="team-score"> { score }</small>;
     }
 
     return null;
@@ -94,8 +102,12 @@ export default class GameDisplay extends Component {
     }
 
     return {
-      team1: team1.toJS(),
-      team2: team2.toJS()
+      team1: { score: this._getTeamScore(team1), players: team1.toJS() },
+      team2: { score: this._getTeamScore(team2), players: team2.toJS() }
     };
+  }
+
+  _getTeamScore(team) {
+    return parseInt(team.reduce((totalElo, player) => totalElo + player.elo, 0) / team.size, 10);
   }
 }
