@@ -19,7 +19,7 @@
 
     tr:first-child {
       margin-top: 1rem;
-      
+
       td {
         cursor: pointer;
 
@@ -35,6 +35,11 @@
       height: 1rem;
     }
 
+  }
+
+  .team-score {
+    color: $grey;
+    font-weight: normal;
   }
 
   .start-game-button {
